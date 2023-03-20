@@ -1,10 +1,9 @@
 const express = require("express");
-const migrationsRun = require("./database/sqlite/migrations");
-
 const routes = require("./routes");
 const AppError = require("./utils/AppError");
+const database = require("./database/sqlite")
 
-migrationsRun();
+database()
 
 const app = express();
 
