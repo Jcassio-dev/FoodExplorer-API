@@ -7,6 +7,7 @@ class UsersController {
     const {name, email, password} = request.body
 
     const checkUserExists = await knex("users").where({email}).first();
+    
     if(checkUserExists){
       throw new AppError("O e-mail já está em uso", 401);
     }
