@@ -9,7 +9,7 @@ class UsersController {
     const checkUserExists = await knex("users").where({email}).first();
     
     if(checkUserExists){
-      throw new AppError("O e-mail já está em uso", 401);
+      throw new AppError("O e-mail já está em uso!", 401);
     }
 
     const hashedPassword = await hash(password, 8);
@@ -45,7 +45,7 @@ class UsersController {
    const checkPassword = await compare(old_password, user.password);
 
    if(!checkPassword){
-    throw new AppError("A senha antiga está inválida.")
+    throw new AppError("A senha antiga inválida.")
    }
   
    
