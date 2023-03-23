@@ -5,7 +5,6 @@ exports.up = knex => knex.schema.createTable("foods", table => {
     table.text("avatarFood");
     table.text("category");
     table.decimal("price", 8,2);
-    table.text("ingredients");
 
     table.timestamp("created_at").default(knex.fn.now());
     table.timestamp("updated_at").default(knex.fn.now());
