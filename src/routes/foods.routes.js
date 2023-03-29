@@ -7,6 +7,6 @@ const foodsRoutes = Router();
 
 
 foodsRoutes.post("/", foodsController.create);
-
+foodsRoutes.get("/:id", foodsController.show)
 
 module.exports = foodsRoutes;

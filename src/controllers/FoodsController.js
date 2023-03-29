@@ -31,6 +31,17 @@ class FoodsController {
 
         return response.status(201).json("Prato criado!");
     }
+
+    async show(request, response){
+        const {id} = request.params;
+
+        const food = await knex("foods").where({id}).first();
+        const ingredients = await knex("ingredients").where({food_id: id}).orderBy("name")
+        return response.json({
+            ...food,
+            ingredients
+        });
+    }
 }
 
 module.exports = FoodsController;
