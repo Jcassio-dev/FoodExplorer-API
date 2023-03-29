@@ -42,6 +42,13 @@ class FoodsController {
             ingredients
         });
     }
+    async delete(request, response){
+        const {id} = request.params;
+
+        await knex("foods").where({id}).delete();
+
+        return response.json("Prato excluído")
+    }
 }
 
 module.exports = FoodsController;
