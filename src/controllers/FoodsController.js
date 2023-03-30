@@ -49,6 +49,42 @@ class FoodsController {
 
         return response.json("Prato excluído")
     }
+
+    async index(request, response){
+        const {title, ingredients} = request.query;
+        
+        let foods;
+
+        if(ingredients){
+        const filterIngredients = ingredients.split(',').map(tag => tag.trim());
+
+        foods = await knex("ingredients")
+        .select([
+            'foods.id',
+            'foods.title'
+        ])
+        .whereLike("foods.title", `%${title}%`)
+        .whereIn("title", filterIngredients)
+        .innerJoin("foods", "foods.id", "ingredients.food_id")
+        .orderBy("foods.title")
+        } else {
+            foods = await knex("foods")
+            .whereLike("title", `%%${title}`)
+        }
+ 
+        const foodsIngredients = await knex("ingredients")
+        const foodsWithIngredients = foods.map(food => {
+            const foodIngredient = foodsIngredients.filter(ingredient => ingredient.food_id === food.id);
+
+
+            return {
+                ...food,
+                ingredients: foodIngredient
+            }
+        })
+
+        return response.json(foodsWithIngredients);
+    }
 }
 
 module.exports = FoodsController;
