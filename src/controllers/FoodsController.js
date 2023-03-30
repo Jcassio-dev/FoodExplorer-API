@@ -85,6 +85,36 @@ class FoodsController {
 
         return response.json(foodsWithIngredients);
     }
+    async update(request, response){
+        const { title, description, price, category, ingredients} = request.body;
+        const { id } = request.params;
+
+        const food = await knex("foods").where({id}).first();
+        
+        if(!food){
+            throw new AppError("Este prato não existe!")
+        }
+
+        food.title = title ?? food.title;
+        food.description = description ?? food.description;
+        food.price = price ?? food.price;
+        food.category = category ?? food.category;
+
+        await knex("foods").where({ id }).update(food);
+        await knex("foods").where({ id }).update("updated_at", knex.fn.now());
+
+        const ingredientsInsert = ingredients.map(ingredient => {
+            return{
+                food_id: id,
+                name: ingredient,
+            }
+        })
+
+        await knex("ingredients").where({food_id: id}).delete()
+        await knex("ingredients").insert(ingredientsInsert)
+
+        return response.json("Prato Atualizado!")
+    }
 }
 
 module.exports = FoodsController;
