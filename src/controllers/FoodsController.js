@@ -102,7 +102,8 @@ class FoodsController {
 
         await knex("foods").where({ id }).update(food);
         await knex("foods").where({ id }).update("updated_at", knex.fn.now());
-
+        
+        if(ingredients.length > 0){
         const ingredientsInsert = ingredients.map(ingredient => {
             return{
                 food_id: id,
@@ -112,7 +113,8 @@ class FoodsController {
 
         await knex("ingredients").where({food_id: id}).delete()
         await knex("ingredients").insert(ingredientsInsert)
-
+        }
+        
         return response.json("Prato Atualizado!")
     }
 }
