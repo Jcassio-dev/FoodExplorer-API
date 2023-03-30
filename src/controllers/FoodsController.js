@@ -69,7 +69,7 @@ class FoodsController {
         .orderBy("foods.title")
         } else {
             foods = await knex("foods")
-            .whereLike("title", `%%${title}`)
+            .whereLike("title", `%${title}%`)
         }
  
         const foodsIngredients = await knex("ingredients")
