@@ -5,6 +5,9 @@ const FoodsController = require("../controllers/FoodsController");
 const foodsController = new FoodsController();
 const foodsRoutes = Router();
 
+const ensureAuthenticated = require("../middlewares/ensureAuthenticated");
+
+foodsRoutes.use(ensureAuthenticated)
 
 foodsRoutes.post("/", foodsController.create);
 foodsRoutes.get("/:id", foodsController.show);
