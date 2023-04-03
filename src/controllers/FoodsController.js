@@ -1,5 +1,6 @@
 const knex = require("../database/knex");
 const AppError = require("../utils/AppError");
+const DiskStorage = require("../providers/DiskStorage");
 
 class FoodsController {
     async create(request, response){
@@ -11,7 +12,12 @@ class FoodsController {
             throw new AppError("Esta comida já existe!", 401);
         }
 
+        const foodFilename = request.file.filename;
+        const diskStorage = new DiskStorage();
+        const filename = await diskStorage.saveFile(foodFilename)
+        
         const [food_id] = await knex("foods").insert({
+            foodAvatar: filename,
             title,
             description,
             price,
