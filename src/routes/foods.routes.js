@@ -15,7 +15,7 @@ const ensureAuthenticated = require("../middlewares/ensureAuthenticated");
 
 foodsRoutes.use(ensureAuthenticated)
 
-foodsRoutes.post("/", upload.single("avatar"), foodsController.create);
+foodsRoutes.post("/", upload.single("avatarFood"), foodsController.create);
 foodsRoutes.get("/:id", foodsController.show);
 foodsRoutes.get("/", foodsController.index);
 foodsRoutes.delete("/:id", foodsController.delete);

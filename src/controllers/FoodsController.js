@@ -17,26 +17,39 @@ class FoodsController {
         const filename = await diskStorage.saveFile(foodFilename)
         
         const [food_id] = await knex("foods").insert({
-            foodAvatar: filename,
+            avatarFood: filename,
             title,
             description,
             price,
             category
         });
+        
+        const hasOnlyOneIngredient = typeof(ingredients) === "string";
 
-        if(ingredients.length > 0){
-            const ingredientsInsert = ingredients.map(ingredient =>{
-                return {
-                    food_id,
-                    name: ingredient
-                }
-            });
+    let ingredientsInsert
+    if (hasOnlyOneIngredient) {
+      ingredientsInsert = {
+        name: ingredients,
+        plates_id
+      }
 
-            await knex("ingredients").insert(ingredientsInsert)
+    } else if (ingredients.length > 1) {
+      ingredientsInsert = ingredients.map(ingredient => {
+        return {
+          name : ingredient,
+          plates_id
         }
+      });
 
-        return response.status(201).json("Prato criado!");
+    } else {
+      return 
     }
+
+
+    await knex("ingredients").insert(ingredientsInsert);
+
+    return response.status(201).json("Prato criado!");
+  }
 
     async show(request, response){
         const {id} = request.params;
