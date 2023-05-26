@@ -30,14 +30,14 @@ class FoodsController {
     if (hasOnlyOneIngredient) {
       ingredientsInsert = {
         name: ingredients,
-        plates_id
+        food_id
       }
 
     } else if (ingredients.length > 1) {
       ingredientsInsert = ingredients.map(ingredient => {
         return {
           name : ingredient,
-          plates_id
+          food_id
         }
       });
 
