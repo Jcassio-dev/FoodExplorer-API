@@ -20,6 +20,6 @@ foodsRoutes.get("/:id", foodsController.show);
 foodsRoutes.get("/", foodsController.index);
 foodsRoutes.delete("/:id", foodsController.delete);
 foodsRoutes.put("/:id", foodsController.update);
-foodsRoutes.patch("/avatar/:id", upload.single("avatar"), foodAvatarController.update)
+foodsRoutes.patch("/avatar/:id", upload.single("avatarFood"), foodAvatarController.update)
 
 module.exports = foodsRoutes;

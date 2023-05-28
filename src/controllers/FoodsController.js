@@ -24,7 +24,7 @@ class FoodsController {
             category
         });
         
-        const hasOnlyOneIngredient = typeof(ingredients) === "string";
+    const hasOnlyOneIngredient = typeof(ingredients) === "string";
 
     let ingredientsInsert
     if (hasOnlyOneIngredient) {
@@ -108,10 +108,11 @@ class FoodsController {
         const { title, description, price, category, ingredients} = request.body;
         const { id } = request.params;
 
+
         const food = await knex("foods").where({id}).first();
         
         if(!food){
-            throw new AppError("Este prato não existe!")
+            throw new AppError("Este prato não existe!");
         }
 
         food.title = title ?? food.title;
@@ -121,18 +122,31 @@ class FoodsController {
 
         await knex("foods").where({ id }).update(food);
         await knex("foods").where({ id }).update("updated_at", knex.fn.now());
-        
-        if(ingredients.length > 0){
-        const ingredientsInsert = ingredients.map(ingredient => {
-            return{
-                food_id: id,
-                name: ingredient,
-            }
-        })
+
+    const hasOnlyOneIngredient = typeof(ingredients) === "string";
+
+    let ingredientsInsert
+    if (hasOnlyOneIngredient) {
+      ingredientsInsert = {
+        name: ingredients,
+        food_id: food.id
+      }
+
+    } else if (ingredients.length > 1) {
+      ingredientsInsert = ingredients.map(ingredient => {
+        return {
+          name : ingredient,
+          food_id: food.id
+        }
+      });
+
+    } else {
+      return 
+    }
 
         await knex("ingredients").where({food_id: id}).delete()
         await knex("ingredients").insert(ingredientsInsert)
-        }
+        
         
         return response.json("Prato Atualizado!")
     }

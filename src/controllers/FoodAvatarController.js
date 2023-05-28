@@ -15,9 +15,9 @@ class FoodAvatarController{
             throw new AppError("Esta comida não existe!", 401);
         }
 
-        if(food.avatarFood){
-            await diskStorage.deleteFile(food.avatar)
-        }
+        /*if(food.avatarFood){
+          await diskStorage.deleteFile(food.avatar)
+        }*/
 
         const filename = await diskStorage.saveFile(AvatarFilename);
 
