@@ -1,12 +1,4 @@
-<p align="center">
- <a href="#Description">Descrição</a> •
- <a href="#Features">características</a> • 
- <a href="#Technologies">Tecnologias</a> •
- <a href="#How to use">Como usar</a> •
- <a href="#Software">Software</a> 
-</p>
-
- # API -  FoodExplorer
+# API -  FoodExplorer
 
 #### Response Format:
 ```bash
